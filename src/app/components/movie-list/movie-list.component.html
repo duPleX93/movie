@@ -1,2 +1,23 @@
-<p>movie-list works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <form>
+        <div class="form-group">
+          <input type="text"
+                 class="form-control"
+                 (keyup)="search($event)">
+        </div>
+      </form>
+    </div>
+  </div>
 
+  <div class="row">
+    <div class="col-md-12">
+      <p>{{ result.total_results }} Search result(s)</p>
+    </div>
+    <div class="col-md-2 movie" *ngFor="let movie of movies">
+      <img [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" [alt]="movie.original_title" class="img-fluid">
+      <p>{{ movie.original_title }}</p>
+    </div>
+  </div>
+</div>

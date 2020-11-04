@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {catchError, map} from 'rxjs/operators';
-import {Observable, throwError} from 'rxjs';
-import {ResponseService} from './response.service';
+import {Observable} from 'rxjs';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -13,9 +12,7 @@ export class MovieService {
   constructor(protected http: HttpClient) {
   }
 
-  getMovies(): Observable<ResponseService> {
-    return this.http.get(this.uri)
-      .pipe(map((res: any) => new ResponseService().deserialize(res)),
-        catchError(err => throwError(err.error.messages)));
+  getMoviesByName(name: string): Observable<any> {
+    return this.http.get(`${this.uri}&query=${name}`);
   }
 }

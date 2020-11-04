@@ -13,6 +13,11 @@ export class MovieService {
   }
 
   getMoviesByName(name: string): Observable<any> {
-    return this.http.get(`${this.uri}&query=${name}`);
+    return this.http.get(`https://api.themoviedb.org/3/search/movie?api_key=${this.apiKey}&language=en-US&page=1&include_adult=false&query=${name}`);
+  }
+
+  getMovieDetailsById(movieId: number): Observable<any> {
+    console.log(movieId);
+    return this.http.get(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${this.apiKey}&language=en-US`);
   }
 }

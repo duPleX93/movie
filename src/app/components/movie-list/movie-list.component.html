@@ -13,11 +13,42 @@
 
   <div class="row">
     <div class="col-md-12">
-      <p>{{ result.total_results }} Search result(s)</p>
+      <p>{{ result?.total_results }} Search result(s)</p>
     </div>
-    <div class="col-md-2 movie" *ngFor="let movie of movies">
-      <img [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" [alt]="movie.original_title" class="img-fluid">
+
+    <div class="col-md-2 movie" (click)="showMovieDetails(movie.id)" *ngFor="let movie of movies">
+      <img [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" [alt]="movie.original_title"
+           class="img-fluid">
       <p>{{ movie.original_title }}</p>
     </div>
   </div>
 </div>
+
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-6">
+        <img [src]="'https://image.tmdb.org/t/p/w300_and_h450_bestv2/' + movieDetails.poster_path" [alt]="movieDetails.original_title"
+             class="img-fluid">
+      </div>
+      <div class="col-md-6">
+        <h2>{{ movieDetails.title }}</h2>
+        <p>Released: {{ movieDetails.release_date | date }}</p>
+        <p>{{ movieDetails.overview }}</p>
+        <p>Country: <span *ngFor="let country of movieDetails.production_countries">{{ country.name }} </span></p>
+        <p>Language: <span *ngFor="let language of movieDetails.spoken_languages">{{ language.name }} </span></p>
+        <p>Genres: <span *ngFor="let genre of movieDetails.genres">{{ genre.name }} </span></p>
+        <p>Length: {{ movieDetails.runtime }} mins</p>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+

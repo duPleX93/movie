@@ -1,64 +1,60 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {MovieService} from '../../core/services/movie.service';
+import {Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation} from '@angular/core';
 import {Movie} from '../../core/models/movie.model';
 import {SearchResult} from '../../core/models/search-result.model';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {MovieDetails} from '../../core/models/movie-details.model';
+import {Genre} from '../../core/models/genre.model';
 
 @Component({
   selector: 'app-movie-list',
   templateUrl: './movie-list.component.html',
-  styleUrls: ['./movie-list.component.scss']
+  styleUrls: ['./movie-list.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
-export class MovieListComponent implements OnInit {
+export class MovieListComponent {
   @ViewChild('content') modalContent: ElementRef;
-  result: SearchResult;
-  movies: Array<Movie>;
-  movieDetails: MovieDetails;
+  @ViewChild('searchInput') searchInput: ElementRef;
+  @Input() movies: Array<Movie>;
+  @Input() result: SearchResult;
+  @Input() movieDetails: MovieDetails;
+  @Input() genres: Array<Genre>;
+  @Output() searchTextChange = new EventEmitter<string>();
+  @Output() selectedMovieChange = new EventEmitter<number>();
 
-  constructor(private movieService: MovieService,
-              private modalService: NgbModal) {
-  }
-
-  ngOnInit() {
-  }
-
-  getMovies(movieName: string): void {
-    this.movieService.getMoviesByName(movieName).subscribe(
-      data => {
-        this.result = data;
-        this.movies = this.result.results;
-      },
-      error => console.log(error.error.status_message)
-    );
-  }
-
-  getMovieDetailsById(movieId: number): void {
-    this.movieService.getMovieDetailsById(movieId).subscribe(
-      data => {
-        this.movieDetails = data;
-      },
-      error => console.log(error.error.status_message)
-    );
+  constructor(private modalService: NgbModal) {
   }
 
   search(input): void {
     const movieName = input.target.value;
 
     if (movieName.length > 2) {
-      this.getMovies(movieName);
+      this.searchTextChange.emit(movieName);
     } else {
       this.movies = [];
     }
   }
 
-  showMovieDetails(movieId) {
-    this.getMovieDetailsById(movieId);
-    this.open(this.modalContent);
+  clearSearchInput(): void {
+    this.searchInput.nativeElement.value = '';
+    this.movies = [];
   }
 
-  open(content) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'});
+  showMovieDetails(movieId): void {
+    this.selectedMovieChange.emit(movieId);
+    this.openModal(this.modalContent);
+  }
+
+  openModal(content): void {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', windowClass: 'dark-modal', backdropClass: 'modal-backdrop'});
     this.movieDetails = null;
+  }
+
+  getGenreNamesByIds(genreIds: Array<number>): string {
+    const genreNames = [];
+
+    for (const genreId of genreIds) {
+      genreNames.push(this.genres.filter(genre => genre.id === genreId).map(genre => genre.name).toString());
+    }
+    return genreNames.join(', ');
   }
 }

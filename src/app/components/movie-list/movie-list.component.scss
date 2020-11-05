@@ -1,0 +1,64 @@
+@import "~src/assets/css/variables";
+
+.form-group {
+  margin-bottom: 30px;
+}
+
+.movie {
+  cursor: pointer;
+  padding: 15px;
+  &:hover {
+    background: $light;
+    color: $dark;
+  }
+}
+
+label {
+  color: $light;
+  font-size: 22px;
+  text-align: right;
+}
+
+.search-area {
+  position: relative;
+}
+#search {
+  background: none !important;
+  border: 1px solid $light;
+  color: $light;
+  max-width: 95%;
+  &:focus {
+    -webkit-box-shadow: 0px 0px 120px 20px rgba($light, 0.07);
+    -moz-box-shadow: 0px 0px 120px 20px rgba($light, 0.07);
+    box-shadow: 0px 0px 120px 20px rgba($light, 0.07);
+  }
+}
+
+#search-clear svg {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 0px;
+  right: 40px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.dark-modal .modal-content {
+  background-color: $dark;
+}
+
+.dark-modal .modal-header {
+  border: none;
+}
+
+.dark-modal .close {
+  color: $light;
+  &:focus {
+    outline: none;
+  }
+}
+
+.modal-backdrop {
+  background: gray;
+}

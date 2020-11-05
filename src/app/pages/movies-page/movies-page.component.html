@@ -1,0 +1,7 @@
+<app-movie-list [movies]="movies"
+                [result]="result"
+                [movieDetails]="movieDetails"
+                [genres]="genres"
+                (searchTextChange)="getMovies($event)"
+                (selectedMovieChange)="getMovieDetailsById($event)">
+</app-movie-list>

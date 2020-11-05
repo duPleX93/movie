@@ -2,28 +2,43 @@
   <div class="row">
     <div class="col-md-12">
       <form>
-        <div class="form-group">
-          <input type="text"
-                 class="form-control"
-                 (keyup)="search($event)">
+        <div class="form-group row">
+          <label for="search" class="col-md-2 offset-md-2">Search:</label>
+          <div class="search-area col-md-6">
+            <input #searchInput
+                   type="text"
+                   id="search"
+                   class="form-control"
+                   (keyup)="search($event)">
+            <span id="search-clear" (click)="clearSearchInput()">
+              <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-circle" fill="currentColor"
+                   xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+              <path fill-rule="evenodd"
+                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+              </svg>
+            </span>
+          </div>
         </div>
       </form>
     </div>
   </div>
 
   <div class="row">
-    <div class="col-md-12">
-      <p>{{ result?.total_results }} Search result(s)</p>
+    <div class="col-md-12" *ngIf="result && searchInput.value.length > 2">
+      <p *ngIf="result.total_results; else noResults">{{ result?.total_results }} Search result(s)</p>
+      <ng-template #noResults><p>No result for: {{ searchInput.value }}</p></ng-template>
     </div>
 
-    <div class="col-md-2 movie" (click)="showMovieDetails(movie.id)" *ngFor="let movie of movies">
+    <div class="col-md-2 movie mb-5" (click)="showMovieDetails(movie.id)" *ngFor="let movie of movies">
       <img [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" [alt]="movie.original_title"
            class="img-fluid">
-      <p>{{ movie.original_title }}</p>
+      <strong>{{ movie.original_title }}</strong><br>
+      <i>Released:</i> {{ movie.release_date | date}}<br>
+      <i>Genres:</i> {{ getGenreNamesByIds(movie.genre_ids) }}
     </div>
   </div>
 </div>
-
 
 <ng-template #content let-modal>
   <div class="modal-header">
@@ -34,17 +49,21 @@
   <div class="modal-body">
     <div class="row">
       <div class="col-md-6">
-        <img [src]="'https://image.tmdb.org/t/p/w300_and_h450_bestv2/' + movieDetails.poster_path" [alt]="movieDetails.original_title"
+        <img [src]="'https://image.tmdb.org/t/p/w300_and_h450_bestv2/' + movieDetails?.poster_path"
+             [alt]="movieDetails?.original_title"
              class="img-fluid">
       </div>
       <div class="col-md-6">
-        <h2>{{ movieDetails.title }}</h2>
-        <p>Released: {{ movieDetails.release_date | date }}</p>
-        <p>{{ movieDetails.overview }}</p>
-        <p>Country: <span *ngFor="let country of movieDetails.production_countries">{{ country.name }} </span></p>
-        <p>Language: <span *ngFor="let language of movieDetails.spoken_languages">{{ language.name }} </span></p>
-        <p>Genres: <span *ngFor="let genre of movieDetails.genres">{{ genre.name }} </span></p>
-        <p>Length: {{ movieDetails.runtime }} mins</p>
+        <h2>{{ movieDetails?.title }}</h2>
+        <p><i>Released:</i> {{ movieDetails?.release_date | date }}</p>
+        <p>{{ movieDetails?.overview }}</p>
+        <p><i>Country:</i><span *ngFor="let country of movieDetails?.production_countries"> {{ country.name }} </span>
+        </p>
+        <p><i>Language:</i><span *ngFor="let language of movieDetails?.spoken_languages"> {{ language.name }} </span>
+        </p>
+        <p><i>Genres:</i><span *ngFor="let genre of movieDetails?.genres"> {{ genre.name }}</span></p>
+        <p><i>Length:</i> {{ movieDetails?.runtime }} mins</p>
+        <a [href]="'https://www.imdb.com/title/' + movieDetails?.imdb_id" target="_blank">Go to IMDB</a>
       </div>
     </div>
   </div>

@@ -7,7 +7,6 @@ import {Observable} from 'rxjs';
 })
 export class MovieService {
   private apiKey = '1c5abaaeaa13c66b570ad3042a0d51f4';
-  private uri = `https://api.themoviedb.org/3/search/movie?api_key=${this.apiKey}&language=en-US&page=1&include_adult=false`;
 
   constructor(protected http: HttpClient) {
   }
@@ -17,7 +16,10 @@ export class MovieService {
   }
 
   getMovieDetailsById(movieId: number): Observable<any> {
-    console.log(movieId);
     return this.http.get(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${this.apiKey}&language=en-US`);
+  }
+
+  getMoviesGenres(): Observable<any> {
+    return this.http.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${this.apiKey}&language=en-US`);
   }
 }

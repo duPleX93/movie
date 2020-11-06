@@ -26,9 +26,8 @@
   </div>
 
   <div class="row">
-    <div class="col-md-12" *ngIf="result && searchInput.value.length > 2">
-      <p *ngIf="result.total_results; else noResults">{{ result?.total_results | i18nPlural: resultMapping }}</p>
-      <ng-template #noResults><p>No result for: {{ searchInput.value }}</p></ng-template>
+    <div class="col-md-12" *ngIf="result">
+      <p>{{ result?.total_results | i18nPlural: resultMapping }}</p>
     </div>
 
     <div class="col-md-3 col-lg-2 movie mb-5" (click)="showMovieDetails(movie.id)" *ngFor="let movie of movies">

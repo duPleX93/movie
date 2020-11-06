@@ -20,7 +20,7 @@ export class MovieListComponent {
   @Input() genres: Array<Genre>;
   @Output() searchTextChange = new EventEmitter<string>();
   @Output() selectedMovieChange = new EventEmitter<number>();
-  resultMapping: {[k: string]: string} = {'=1': '# Search result', other: '# Search results'};
+  resultMapping: {[k: string]: string};
 
   constructor(private modalService: NgbModal) {
   }
@@ -30,6 +30,7 @@ export class MovieListComponent {
 
     if (movieName.length > 2) {
       this.searchTextChange.emit(movieName);
+      this.resultMapping = {'=0': `No result for: ${movieName}`, '=1': '# Search result', other: '# Search results'};
     } else {
       this.movies = [];
     }

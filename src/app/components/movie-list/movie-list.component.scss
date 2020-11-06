@@ -7,10 +7,16 @@
 .movie {
   cursor: pointer;
   padding: 15px;
+  border-radius: 5px;
   &:hover {
     background: $light;
     color: $dark;
   }
+}
+
+.movie img {
+  margin: 0 auto;
+  display: block;
 }
 
 label {
@@ -26,7 +32,7 @@ label {
   background: none !important;
   border: 1px solid $light;
   color: $light;
-  max-width: 95%;
+  padding-right: 40px;
   &:focus {
     -webkit-box-shadow: 0px 0px 120px 20px rgba($light, 0.07);
     -moz-box-shadow: 0px 0px 120px 20px rgba($light, 0.07);
@@ -38,8 +44,8 @@ label {
   position: absolute;
   width: 20px;
   height: 20px;
-  top: 0px;
-  right: 40px;
+  top: -0.1px;
+  right: 15px;
   margin: 10px;
   cursor: pointer;
 }
@@ -61,4 +67,18 @@ label {
 
 .modal-backdrop {
   background: gray;
+}
+
+.btn-imdb {
+  background: $imdb;
+  font-weight: 900;
+  &:focus {
+    box-shadow: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  label {
+    text-align: left;
+  }
 }

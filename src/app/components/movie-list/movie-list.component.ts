@@ -20,6 +20,7 @@ export class MovieListComponent {
   @Input() genres: Array<Genre>;
   @Output() searchTextChange = new EventEmitter<string>();
   @Output() selectedMovieChange = new EventEmitter<number>();
+  resultMapping: {[k: string]: string} = {'=1': '# Search result', other: '# Search results'};
 
   constructor(private modalService: NgbModal) {
   }

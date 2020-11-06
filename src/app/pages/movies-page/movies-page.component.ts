@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MovieService} from '../../core/services/movie.service';
 import {SearchResult} from '../../core/models/search-result.model';
 import {Movie} from '../../core/models/movie.model';
@@ -16,7 +16,8 @@ export class MoviesPageComponent implements OnInit {
   movieDetails: MovieDetails;
   genres: Array<Genre>;
 
-  constructor(private movieService: MovieService) { }
+  constructor(private movieService: MovieService) {
+  }
 
   ngOnInit(): void {
     this.getMoviesGenres();
